@@ -8,8 +8,8 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
 
     # /misuc/420
-    url(r'^(?P<album_id>[0-9]+)/$', views.detail, name='detail')
+    url(r'^(?P<album_id>[0-9]+)/$', views.detail, name='detail'),
     
     # /misuc/420/favorite
-    url(r'^(?P<album_id>[0-9]+)/favorite$', views.favorite, name='favorite')
+    url(r'^(?P<album_id>[0-9]+)/favorite$', views.favorite, name='favorite'),
 ]
