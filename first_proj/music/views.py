@@ -1,57 +1,20 @@
-from django.http import HttpResponse, Http404
-from django.template import loader
+from django.views import generic
+from .models import Album
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from django.shortcuts import render, get_object_or_404			#important
+class IndexView(generic.ListView):
+	template_name="music/index.html"
+	context_object_name = 'all_albums'
 
-from .models import Album, Song
+	def get_queryset(self):
+		return Album.objects.all()
+
+class DetailView(generic.DetailView):
+	model=Album
+	template_name="music/detail.html"
 
 
-
-def index1(request):		#old format  -- traditional, way to render html
-	all_albums = Album.objects.all()
-	html = ''
-	for album in all_albums:
-		url = '/music/'+str(album.id)+ '/'
-		html += '<a href="'+url+'">'+album.album_title+'</a><br/>'
-	return HttpResponse(html)
-
-def index2(request):			# old way of using htmlrespomse 
-	all_albums = Album.objects.all()
-	template = loader.get_template('music/index.html')
-	context = {'all_albums':all_albums}
-	return HttpResponse(template.render(context, request))
-
-def index(request):
-	all_albums = Album.objects.all()
-	context = {'all_albums':all_albums}
-	return render(request, 'music/index.html', context)
-
-def detail1(request, album_id):			# old way of htmlrespomse
-	return HttpResponse(''+str(album_id))
-
-def detail2(request, album_id):			# old and lengthy way to call 404
-	try:
-		album = Album.objects.get(pk=album_id)
-		context = {'album':album}
-	except Album.DoesNotExist:
-		raise Http404("Album does not exist")
-	return render(request, 'music/detail.html', context)
-
-def detail(request, album_id):
-	album = get_object_or_404(Album, pk=album_id)
-	context = {'album':album}
-	return render(request, 'music/detail.html', context)
-
-def favorite(request, album_id):
-	album = get_object_or_404(Album, pk=album_id)
-	try:
-		selected_song = album.song_set.get(pk=request.POST['song'])
-	except:
-		return render(request, 'music/detail.html', {
-			'album': album,
-			'error_message':'Song Does not exists',
-			})
-	else:
-		selected_song.is_favorite = True
-		selected_song.save()
-		return render(request, 'music/detail.html', {'album': album})
+class AlbumCreate(CreateView):
+	model = Album
+	fields=['artist', 'album_title', 'genre', 'album_logo']
+	

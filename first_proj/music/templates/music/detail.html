@@ -13,18 +13,4 @@
 		{% endfor %}
 	</ul>
 
-	{% if error_message %}
-		Error {{error_message}}
-	{% endif %}
-	<form method="post" action="{% url 'music:favorite' album.id %}">
-		{% csrf_token %}	
-		{% for song in album.song_set.all %}
-			<input type="radio" name="song" id="song{{song.id}}" value="{{song.id}}" />
-			<label for="song{{song.song_title}}">{{song.song_title}}</label>
-			{% if song.is_favorite %}
-			Favorite
-			{% endif %}
-		{% endfor %}
-		<input type="submit" name="song_favorite" id="Favorite">
-	</form>
 {% endblock %}
