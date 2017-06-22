@@ -25,7 +25,10 @@ SECRET_KEY = 'iiy-deun1x#bmwz430(h@%&u&j-ip5@qqichtfwwxtqklb_oo0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    'prashantk2.herokuapp.com',
+]
 
 
 # Application definition
@@ -125,7 +128,7 @@ STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR, 'static'),
+    # os.path.join(PROJECT_DIR, 'static'),
 )
 
 
